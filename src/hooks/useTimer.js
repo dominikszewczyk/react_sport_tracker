@@ -1,36 +1,36 @@
 import { useState, useRef } from 'react';
 
+export const timerStates = {
+    new: "new",
+    started: "started",
+    paused: "paused",
+    reseted: "reseted"
+}
+
 export default function useTimer(initialStatus = 0) {
-    const [timer, setTimer] = useState(0);
-    const [isActive, setIsActive] = useState(false);
-    const [isPaused, setIsPaused] = useState(false);
+    const [timeElapsedInMs, setTimeElapsedInMs] = useState(0);
+    const [timerState, setTimerState] = useState(timerStates.new)
     const intervalRef = useRef();
 
-    const handleStart = () => {
-        setIsActive(true);
-        intervalRef.current = setInterval(() => {
-            setTimer((timer) => timer + 1);
-        }, 10)
-    };
+    const handleTimerAction = (action) => {
+        if (action === timerStates.new || action === timerStates.paused) {
+            setTimerState(timerStates.started);
+            intervalRef.current = setInterval(() => {
+                setTimeElapsedInMs((timeElapsedInMs) => timeElapsedInMs + 1);
+            }, 10);
+        }
+        
+        if (action === timerStates.started) {
+            clearInterval(intervalRef.current);
+            setTimerState(timerStates.paused);
+        }
+        
+        if (action === timerStates.reseted) {
+            clearInterval(intervalRef.current);
+            setTimerState(timerStates.new);
+            setTimeElapsedInMs(0);
+        }
+    }
 
-    const handlePause = () => {
-        clearInterval(intervalRef.current);
-        setIsPaused(true);
-    };
-
-    const handleResume = () => {
-        setIsPaused(false)
-        intervalRef.current = setInterval(() => {
-            setTimer((timer) => timer + 1);
-        }, 10)
-    };
-
-    const handleReset = () => {
-        clearInterval(intervalRef.current);
-        setIsActive(false);
-        setIsPaused(false);
-        setTimer(0);
-    };
-
-    return [ timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset ]
+    return [timeElapsedInMs, timerState, handleTimerAction]
 }
