@@ -1,0 +1,30 @@
+{
+    "workout_category": [
+        { "id": 1, "name": "Indoor"},
+        { "id": 2, "name": "Outdoor"},
+        { "id": 3, "name": "Gym"}
+    ],
+    "workouts": [
+        { "id": 1, "name": "Outdoor Walk", "category_id": 2},
+        { "id": 2, "name": "Indoor Walk", "category_id": 1},
+        { "id": 3, "name": "Outdoor Run", "category_id": 2},
+        { "id": 4, "name": "Indoor Run", "category_id": 1},
+        { "id": 5, "name": "Indoor Cycling", "category_id": 1},
+        { "id": 6, "name": "Outdoor Cycling", "category_id": 2},
+        { "id": 7, "name": "Elliptical", "category_id": 3},
+        { "id": 8, "name": "Stairt Stepper", "category_id": 3},
+        { "id": 9, "name": "Hiking", "category_id": 2},
+        { "id": 10, "name": "Yoga", "category_id": 1},
+        { "id": 11, "name": "Functional Strength Training", "category_id": 3},
+        { "id": 12, "name": "Strength Training", "category_id": 3},
+        { "id": 13, "name": "Dance", "category_id": 1},
+        { "id": 14, "name": "Cooldown", "category_id": 3},
+        { "id": 15, "name": "Core Trainig", "category_id": 1},
+        { "id": 16, "name": "Pilates", "category_id": 1},
+        { "id": 17, "name": "Tai Chi", "category_id": 1},
+        { "id": 18, "name": "Skating", "category_id": 1},
+        { "id": 19, "name": "Swimming", "category_id": 1},
+        { "id": 20, "name": "Tennis", "category_id": 2},
+        { "id": 21, "name": "Squash", "category_id": 1}
+    ]
+}

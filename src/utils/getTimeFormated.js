@@ -1,12 +1,12 @@
-export default function getTimeFormated(time = 0) {
-    let timeSplitted = {
-        days: Math.floor(time / (100 * 60 * 60 * 24)),
-        hours: Math.floor((time / (100 * 60 * 60)) % 24),
-        minutes: Math.floor((time / (100 * 60)) % 60),
-        seconds: Math.floor((time / (100)) % 60)
+export default function getTimeFormated(timeInMilliseconds = 0) {
+    const timeSplitted = {
+        days: Math.floor(timeInMilliseconds / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((timeInMilliseconds / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((timeInMilliseconds / (1000 * 60)) % 60),
+        seconds: Math.floor((timeInMilliseconds / (1000)) % 60)
     };
 
-    let timeFormated = {
+    const timeFormated = {
         days: timeSplitted.days.toString(),
         hours: timeSplitted.hours.toString().padStart(2, '0'),
         minutes: timeSplitted.minutes.toString().padStart(2, '0'),
