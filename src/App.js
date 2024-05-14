@@ -1,15 +1,26 @@
-import Stopwatch from "./components/Stopwatch/Stopwatch"
-import Statistics from "./components/Statistics/Statistics";
+import { useTranslation } from 'react-i18next';
+import { Suspense } from 'react';
+import Stopwatch from "./components/Stopwatch/Stopwatch";
+import LanguageSwitcher from "./components/LanguageSwitcher/LanguageSwitcher";
+
 import './App.css';
 
 function App() {
+    const { t } = useTranslation();
+
     return (
-        <div className="training">
-            <h1>Running</h1>
+        <div className="workout">
+            <h1>{t('workout.h1')}.</h1>
+            <LanguageSwitcher />
             <Stopwatch />
-            <Statistics />
         </div>
     );
 }
 
-export default App;
+export default function WrappedApp() {
+    return (
+        <Suspense fallback="...loading">
+            <App />
+        </Suspense>
+    )
+}
