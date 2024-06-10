@@ -2,3 +2,8 @@ body {
     background-color: #161e33;
     color: #ffffff;
 }
+.container {
+    width: min(100% - 15px, 1024px);
+    margin-inline: auto;
+    position: relative;
+}

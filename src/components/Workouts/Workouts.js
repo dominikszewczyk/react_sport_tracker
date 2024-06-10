@@ -9,7 +9,6 @@ export default function Workout() {
     const [workouts, setWorkouts] = useState([]);
     const [selectedWorkout, setSelectedWorkout] = useState(null)
 
-    // fetch categories
     useEffect(() => {
         const fetchData = () => {
             fetch('http://localhost:3001/workout_category')
@@ -21,7 +20,6 @@ export default function Workout() {
         fetchData();
     }, [])
 
-    // fetch workouts by category
     useEffect(() => {
         let selectedCategoryId = (selectedCategory == null) ? "" : selectedCategory.id;
         const fetchData = () => {
@@ -34,26 +32,28 @@ export default function Workout() {
         fetchData();
     }, [selectedCategory])
 
-    console.log(setSelectedCategory);
-
+    function handleReturnButtonClick() {
+        setSelectedWorkout(null);
+        // clear Stopwatch
+    }
     return (
-        <>
+        <div className="container">
             {selectedWorkout === null &&
-                <div className="cointainer">
+                <>
                     <div className="categories__wrapper">
                         <h2 className="categories__title">Workouts</h2>
                         {
                             categories.length > 0 &&
                             <div className="categories">
                                 <button
-                                    className={`categories__button button ${(selectedCategory == '') ? " categories__button--active" : ""}`}
+                                    className={`categories__button button ${(selectedCategory === '') ? " categories__button--active" : ""}`}
                                     onClick={() => setSelectedCategory()}>
                                     All
                                 </button>
                                 {
                                     categories.map((category) =>
                                         <button
-                                            className={`categories__button button ${(selectedCategory == category.id) ? " categories__button--active" : ""}`}
+                                            className={`categories__button button ${(selectedCategory === category.id) ? " categories__button--active" : ""}`}
                                             key={category.id}
                                             onClick={() => setSelectedCategory(category)}>
                                             {category.name}
@@ -66,7 +66,7 @@ export default function Workout() {
                     {
                         workouts.length > 0 &&
                         <div className="workouts__wrapper">
-                            <h3 className="workout__header">Select your workout...</h3>
+                            <h3 className="workouts__header">Select your workout...</h3>
                             <div className="workouts">
                                 {
                                     workouts.map((workout) =>
@@ -80,14 +80,27 @@ export default function Workout() {
                             </div>
                         </div>
                     }
-                </div>
-            }
-            {selectedWorkout !== null &&
-                <>
-                    <div>{selectedWorkout.name}</div>
-                    <Stopwatch />
                 </>
             }
-        </>
+            {selectedWorkout !== null &&
+                <div className="workout">
+                    <div className="workout__background">
+                        <div className="background__wrapper">
+                            <img src={selectedWorkout.image} alt={selectedWorkout.name} />
+                        </div>
+                        <button className="button button__back" onClick={handleReturnButtonClick}>back</button>
+                        <h3 className="workout__header">
+                            <span>
+                                {categories.filter((category) => String(category.id) === String(selectedWorkout.category_id))[0].name + ': '}
+                            </span>
+                            {selectedWorkout.name}
+                        </h3>
+                    </div>
+                    <section className="workout__stopwatch">
+                        <Stopwatch />
+                    </section>
+                </div>
+            }
+        </div>
     );
 }
