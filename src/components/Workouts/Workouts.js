@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Stopwatch from "../Stopwatch/Stopwatch";
+import getTimeFormated from '../../utils/getTimeFormated'
+import { format } from 'date-fns'
 
 import './Workouts.scss';
 
@@ -78,8 +80,7 @@ export default function Workout() {
                 <>
                     <div className="categories__wrapper">
                         <h2 className="categories__title">Workouts</h2>
-                        {
-                            categories.length > 0 &&
+                        {categories.length > 0 &&
                             <div className="categories">
                                 <button
                                     className={`categories__button button ${(selectedCategory === '') ? " categories__button--active" : ""}`}
@@ -99,8 +100,7 @@ export default function Workout() {
                             </div>
                         }
                     </div>
-                    {
-                        workouts.length > 0 &&
+                    {workouts.length > 0 &&
                         <div className="workouts__wrapper">
                             <h3 className="workouts__header">Select your workout...</h3>
                             <div className="workouts">
@@ -146,6 +146,7 @@ export default function Workout() {
                             <th>Workout ID</th>
                             <th>Category ID</th>
                             <th>timeElapsedInMs</th>
+                            <th>DateTime</th>
                         </tr>
                         {
                             trainings.map((item, idx) => (
@@ -153,7 +154,8 @@ export default function Workout() {
                                     <td>{item.id}</td>
                                     <td>{item.workoutId}</td>
                                     <td>{item.categoryId}</td>
-                                    <td>{item.timeElapsedInMs}</td>
+                                    <td>{getTimeFormated(item.timeElapsedInMs)}</td>
+                                    <td>{format(item.timestamp, 'yyyy-MM-dd HH:mm')}</td>
                                 </tr>
                             ))
                         }

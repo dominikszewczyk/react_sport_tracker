@@ -130,39 +130,17 @@
   "trainings": [
     {
       "id": "",
-      "workoutId": 14,
-      "categoryId": 3,
-      "timeElapsedInMs": 361
-    },
-    {
-      "id": "",
-      "workoutId": 16,
+      "workoutId": 5,
       "categoryId": 1,
-      "timeElapsedInMs": 181
+      "timeElapsedInMs": 8020,
+      "timestamp": "2024-06-21T16:59:34+02:00"
     },
     {
       "id": "",
-      "workoutId": 17,
-      "categoryId": 1,
-      "timeElapsedInMs": 483
-    },
-    {
-      "id": "",
-      "workoutId": 11,
-      "categoryId": 3,
-      "timeElapsedInMs": 300
-    },
-    {
-      "id": "",
-      "workoutId": 20,
+      "workoutId": 1,
       "categoryId": 2,
-      "timeElapsedInMs": 183
-    },
-    {
-      "id": "",
-      "workoutId": 12,
-      "categoryId": 3,
-      "timeElapsedInMs": 375
+      "timeElapsedInMs": 85770,
+      "timestamp": "2024-06-21T17:02:57+02:00"
     }
   ]
 }

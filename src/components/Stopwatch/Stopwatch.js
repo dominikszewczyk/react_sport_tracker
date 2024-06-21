@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import React from 'react'
 import getTimeFormated from '../../utils/getTimeFormated';
 import useTimer, { timerStates } from '../../hooks/useTimer';
+import { formatISO } from 'date-fns'
 
 import './Stopwatch.scss';
 
@@ -11,17 +12,19 @@ export default function Stopwatch({ workout, returnButton }) {
     const timerClassName = (timerState === timerStates.started) ? " button__stopwatch--pause" : " button__stopwatch--start";
 
     function handleSaveClick() {
-        console.log(workout.id);
-        const date = {
+        const currentDate = new Date();
+
+        const data = {
             id: '',
             workoutId: workout.id,
             categoryId: workout.categoryId,
-            timeElapsedInMs: timeElapsedInMs
-        }
+            timeElapsedInMs: timeElapsedInMs,
+            timestamp: formatISO(currentDate)
+        };
 
         fetch(`http://localhost:3001/trainings`, {
             method: "POST",
-            body: JSON.stringify(date),
+            body: JSON.stringify(data),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             },
