@@ -1,25 +1,23 @@
 $green: rgb(47, 168, 70);
+$blue: rgba(43, 49, 69, 1);
 
 .stopwatch {
-    height: 80px;
-    width: 280px;
-    border-radius: 18px;
+    color: $blue;
+    height: 100%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    flex-direction: column;
     align-items: center;
-    background: $green;
+    justify-content: center;
 
     &__timer {
-        color: #000;
-        width: 155px;
-        font-size: 38px;
+        font-size: 56px;
         font-weight: 600;
-        text-align: center;
+        color: $blue;
     }
 }
 
-.button {
+.button__stopwatch {
     background-repeat: no-repeat;
     background-size: 70%;
     background-position: center;
@@ -30,16 +28,20 @@ $green: rgb(47, 168, 70);
     border-radius: 50%;
     margin: 3px;
 
-    &__start,
-    &__resume {
+    &:hover {
+        cursor: pointer;
+    }
+
+    &--start,
+    &--resume {
         background-image: url(../../../public/images/icon-play.png);
     }
 
-    &__pause {
+    &--pause {
         background-image: url(../../../public/images/icon-pause.png);
     }
 
-    &__reset {
+    &--reset {
         background-image: url(../../../public/images/icon-reset.png);
     }
 }

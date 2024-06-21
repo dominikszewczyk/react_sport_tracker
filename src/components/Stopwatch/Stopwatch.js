@@ -1,22 +1,57 @@
+import { useEffect, useState } from 'react';
 import React from 'react'
 import getTimeFormated from '../../utils/getTimeFormated';
 import useTimer, { timerStates } from '../../hooks/useTimer';
+import { formatISO } from 'date-fns'
 
 import './Stopwatch.scss';
 
-export default function Stopwatch() {
+export default function Stopwatch({ workout, returnButton }) {
     const [timeElapsedInMs, timerState, handleTimerAction] = useTimer()
 
-    const timerClassName = (timerState === timerStates.started) ? " button__pause" : " button__start";
-    console.log(timerState)
+    const timerClassName = (timerState === timerStates.started) ? " button__stopwatch--pause" : " button__stopwatch--start";
+
+    function handleSaveClick() {
+        const currentDate = new Date();
+
+        const data = {
+            id: '',
+            workoutId: workout.id,
+            categoryId: workout.categoryId,
+            timeElapsedInMs: timeElapsedInMs,
+            timestamp: formatISO(currentDate)
+        };
+
+        fetch(`http://localhost:3001/trainings`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                handleTimerAction("stopped");
+                returnButton();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
     return (
         <div className="stopwatch">
-            <div className="stopwatch__timer">{getTimeFormated(timeElapsedInMs * 10)}</div>
+            <div className="stopwatch__timer">{getTimeFormated(timeElapsedInMs)}</div>
             <div className="stopwatch__buttons">
-                <button className={"button" + timerClassName} onClick={() => handleTimerAction(timerState)}></button>
-                <button className="button button__reset" onClick={() => handleTimerAction(timerStates.reseted)}></button>
+                <button className={"button__stopwatch" + timerClassName} onClick={() => handleTimerAction(timerState)}></button>
+                {/* <button className="button__stopwatch button__stopwatch--reset" onClick={() => handleTimerAction(timerStates.reseted)}></button> */}
             </div>
+            <button className="button" onClick={handleSaveClick}>Save</button>
         </div>
     )
 }
