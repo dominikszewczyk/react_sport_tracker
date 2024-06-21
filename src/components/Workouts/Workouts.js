@@ -7,15 +7,24 @@ export default function Workout() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState();
     const [workouts, setWorkouts] = useState([]);
-    const [selectedWorkout, setSelectedWorkout] = useState(null)
+    const [selectedWorkout, setSelectedWorkout] = useState(null);
+    const [trainings, setTrainings] = useState([]);
 
     useEffect(() => {
         const fetchData = () => {
-            fetch('http://localhost:3001/workout_category')
-                .then((response) => response.json())
+            fetch('http://localhost:3001/category')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then((data) => {
                     setCategories(data);
                 })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         };
         fetchData();
     }, [])
@@ -23,14 +32,41 @@ export default function Workout() {
     useEffect(() => {
         let selectedCategoryId = (selectedCategory == null) ? "" : selectedCategory.id;
         const fetchData = () => {
-            fetch(`http://localhost:3001/workouts?category_id=${selectedCategoryId}`)
-                .then((response) => response.json())
+            fetch(`http://localhost:3001/workouts?categoryId=${selectedCategoryId}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then((data) => {
                     setWorkouts(data);
                 })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         };
         fetchData();
     }, [selectedCategory])
+
+    useEffect(() => {
+        const fetchData = () => {
+            fetch(`http://localhost:3001/trainings`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setTrainings(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+        fetchData();
+    }, [selectedWorkout])
 
     function handleReturnButtonClick() {
         setSelectedWorkout(null);
@@ -91,15 +127,39 @@ export default function Workout() {
                         <button className="button button__back" onClick={handleReturnButtonClick}>back</button>
                         <h3 className="workout__header">
                             <span>
-                                {categories.filter((category) => String(category.id) === String(selectedWorkout.category_id))[0].name + ': '}
+                                {categories.filter((category) => String(category.id) === String(selectedWorkout.categoryId))[0].name + ': '}
                             </span>
                             {selectedWorkout.name}
                         </h3>
                     </div>
                     <section className="workout__stopwatch">
-                        <Stopwatch />
+                        <Stopwatch workout={selectedWorkout} returnButton={handleReturnButtonClick} />
                     </section>
                 </div>
+            }
+            {selectedWorkout === null && trainings.length > 0 &&
+                <div>
+                    <h2>Trainings ({trainings.length})</h2>
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Workout ID</th>
+                            <th>Category ID</th>
+                            <th>timeElapsedInMs</th>
+                        </tr>
+                        {
+                            trainings.map((item, idx) => (
+                                <tr key={idx}>
+                                    <td>{item.id}</td>
+                                    <td>{item.workoutId}</td>
+                                    <td>{item.categoryId}</td>
+                                    <td>{item.timeElapsedInMs}</td>
+                                </tr>
+                            ))
+                        }
+                    </table>
+                </div>
+
             }
         </div>
     );

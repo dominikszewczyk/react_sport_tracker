@@ -4,7 +4,8 @@ export const timerStates = {
     new: "new",
     started: "started",
     paused: "paused",
-    reseted: "reseted"
+    reseted: "reseted",
+    stopped: "stopped"
 }
 
 export default function useTimer(initialStatus = 0) {
@@ -16,18 +17,24 @@ export default function useTimer(initialStatus = 0) {
         if (action === timerStates.new || action === timerStates.paused) {
             setTimerState(timerStates.started);
             intervalRef.current = setInterval(() => {
-                setTimeElapsedInMs((timeElapsedInMs) => timeElapsedInMs + 1);
+                setTimeElapsedInMs((timeElapsedInMs) => timeElapsedInMs + 10);
             }, 10);
         }
-        
+
         if (action === timerStates.started) {
             clearInterval(intervalRef.current);
             setTimerState(timerStates.paused);
         }
-        
+
         if (action === timerStates.reseted) {
             clearInterval(intervalRef.current);
             setTimerState(timerStates.new);
+            setTimeElapsedInMs(0);
+        }
+
+        if (action === timerStates.stopped) {
+            clearInterval(intervalRef.current);
+            setTimerState(timerStates.stopped);
             setTimeElapsedInMs(0);
         }
     }
